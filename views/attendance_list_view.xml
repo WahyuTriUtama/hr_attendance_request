@@ -16,5 +16,9 @@
             </xpath>
         </field>
     </record>
+
+    <record id="hr_attendance.menu_hr_attendance_kiosk_no_user_mode" model="ir.ui.menu" >
+        <field name="action" eval="False" />
+    </record>
     
 </odoo>
