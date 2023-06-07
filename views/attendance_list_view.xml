@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>    
+    <!-- primary|extension Inherited .:Tree:. view for "model" -->
+    <record id="view_hr_attendance_tree_inherited" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherited</field>
+        <field name="model">hr.attendance</field>
+        <!-- Please veryfiy, that the following inherited view really sticks to the naming convention. -->
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
+        <field name="type">tree</field>
+        <field name="mode">extension</field>
+        <!-- <field name="priority" eval="16" /> -->
+        <!-- <field name="active" eval="True" /> -->
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

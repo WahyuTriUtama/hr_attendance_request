@@ -21,7 +21,8 @@
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
-        'views/hr_attendance_request_view.xml'
+        'views/hr_attendance_request_view.xml',
+        'views/attendance_list_view.xml'
     ],
     'images': ['static/img/icon.png'],
     'license': 'LGPL-3',
