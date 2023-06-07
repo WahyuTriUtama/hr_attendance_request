@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Request view -->
+        <!-- Tree view for "model" -->
+        <record id="view_hr_attendance_request_tree" model="ir.ui.view">
+            <field name="name">view.hr.attendance.request.tree</field>
+            <field name="model">hr.attendance.request</field>
+            <field name="priority" eval="16" />
+            <field name="arch" type="xml">
+                <tree string="Attendance Request">
+                    <field name="employee_id"/>
+                    <field name="attendance_date"/>
+                    <field name="clock_in" widget="float_time"/>
+                    <field name="clock_out" widget="float_time"/>
+                    <field name="work_note"/>
+                    <field name="state_request"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Main window action for "model" Request View-->
+        <record id="action_view_hr_attendance_request" model="ir.actions.act_window">
+            <field name="name">Attendance Request</field>
+            <field name="res_model">hr.attendance.request</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create new Request
+                </p>
+            </field>
+        </record>
+        <!-- End Request view -->
+
+        <!-- Approval View -->
+        <!-- Tree view for "model" -->
+        <record id="view_hr_attendance_request_approval_tree" model="ir.ui.view">
+            <field name="name">view.hr.attendance.request.approval.tree</field>
+            <field name="model">hr.attendance.request</field>
+            <field name="priority" eval="16" />
+            <field name="arch" type="xml">
+                <tree string="Attendance Request Approval">
+                    <field name="employee_id"/>
+                    <field name="attendance_date"/>
+                    <field name="clock_in" widget="float_time"/>
+                    <field name="clock_out" widget="float_time"/>
+                    <field name="work_note"/>
+                    <field name="state_request"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Main window action for "model" Request View-->
+        <record id="action_view_hr_attendance_request_approval" model="ir.actions.act_window">
+            <field name="name">Attendance Request Approval</field>
+            <field name="res_model">hr.attendance.request</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="domain">[('state_request','=','requested')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create new Approval
+                </p>
+            </field>
+        </record>
+        <!-- End Approval View -->
+
+        <!-- Form view for "model" -->
+        <record id="view_hr_attendance_request_form" model="ir.ui.view">
+            <field name="name">view.hr.attendance.request.form</field>
+            <field name="model">hr.attendance.request</field>
+            <!-- <field name="type">form</field> -->
+            <!-- <field name="mode">primary</field> -->
+            <field name="priority" eval="16" />
+            <field name="arch" type="xml">
+                <form string="Attendance Request" attrs="{'delete': [('state_request','=','draft')]}">
+                    <header>
+                        <button 
+                            name="submit_req" 
+                            string="Submit" 
+                            type="object" 
+                            class="btn-primary"
+                            attrs="{'invisible': [('state_request','not in','draft')]}"/>
+                        <button 
+                            name="approve_req" 
+                            string="Approve" 
+                            type="object" 
+                            class="oe_highlight"
+                            groups="hr_attendance.group_hr_attendance_manager"
+                            attrs="{'invisible': [('state_request','not in','requested')]}"/>
+                        <button 
+                            name="reject_req" 
+                            string="Reject" 
+                            type="object" 
+                            class="oe_highlight"
+                            groups="hr_attendance.group_hr_attendance_manager"
+                            attrs="{'invisible': [('state_request','not in','requested')]}"/>
+                        <field name="state_request" widget="statusbar" statusbar_visible="draft,requested,approved"/>
+                    </header>
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="attendance_date" attrs="{'readonly':[('state_request','!=','draft')]}"/>
+                            <field name="clock_in" widget="float_time" attrs="{'readonly':[('state_request','!=','draft')]}"/>
+                            <field name="clock_out" widget="float_time" attrs="{'readonly':[('state_request','!=','draft')]}"/>
+                            <field name="work_note" attrs="{'readonly':[('state_request','!=','draft')]}"/>
+                            <!-- <field name="employee_id" readonly="1"/> -->
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- End Form -->
+        
+        <!-- Menu -->
+        <!-- Main menu for "model" -->
+        <menuitem
+            id="menu_hr_attendance_request_root"
+            name="Attendance Request"
+            parent="hr_attendance.menu_hr_attendance_root"
+            groups="base.group_user"
+        />
+        <!-- sub menu -->
+        <menuitem
+            id="menu_hr_attendance_request_sub1"
+            name="Request"
+            parent="menu_hr_attendance_request_root"
+            groups="base.group_user"
+            sequence="15"
+            action="action_view_hr_attendance_request"
+        />
+        <menuitem
+            id="menu_hr_attendance_request_sub2"
+            name="Approval"
+            parent="menu_hr_attendance_request_root"
+            groups="hr_attendance.group_hr_attendance_manager"
+            sequence="10"
+            action="action_view_hr_attendance_request_approval"
+        />
+    </data>
+</odoo>
+
